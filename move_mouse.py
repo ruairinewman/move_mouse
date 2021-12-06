@@ -33,13 +33,13 @@ else:
 # print detected screen resolution - information only
 print("Detected screen resolution:", str(width) + 'x' + str(height))
 
-def move_mouse(w, h, i, e):
+def move_mouse(m, w, h, i, e):
 	# get random coordinates for mouse
 	wpos = randrange(0, w)
 	hpos = randrange(0, h)
 	
 	# Set pointer position
-	mouse.position = (wpos, hpos)
+	m.position = (wpos, hpos)
 
 	# sleep for a minute
 	sleep(i)
@@ -47,10 +47,10 @@ def move_mouse(w, h, i, e):
 time_start = time()
 if expiry is None:
 	while True:
-		move_mouse(width, height, interval, expiry)
+		move_mouse(mouse, width, height, interval, expiry)
 else:
 	try:
 		while time() < time_start + expiry:
-			move_mouse(width, height, interval, expiry)
+			move_mouse(mouse, width, height, interval, expiry)
 	except:
 		sys.exit(1)

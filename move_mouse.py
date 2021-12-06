@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# vim: set expandtab:ts=2:sw=2
+
 import sys
 import argparse
 import pyautogui

@@ -18,6 +18,7 @@ interval= 60 # seconds to sleep after each movement of mouse pointer
 parser = argparse.ArgumentParser(description="Arguments")
 parser.add_argument("-e", "--expiry", help = "Expiry in minutes ; default is None", required=False, default=None, type=int)
 parser.add_argument("-i", "--interval", help = "Frequency in minutes of mouse pointer moves ; default is 1 (every minute)", required=False, default=1, type=int)
+parser.add_argument("-v", "--verbose", help = "Display coordinates at each change", required=False, action='store_true')
 args = parser.parse_args()
 
 # Set expiry
@@ -36,9 +37,9 @@ else:
 print("Detected screen resolution:", str(width) + 'x' + str(height))
 
 def handler(signum, frame):
-	res = input("Ctrl-c was pressed. Do you really want to exit? Y/n ")
-	if res is None:
-		res = "\r\n"
+	res = input("Do you really want to quit? [Y/n] ")
+	if res == "":
+		res = "y"
 	if res.lower() == 'y':
 		exit(1)
 
@@ -51,9 +52,10 @@ def move_mouse(m, w, h, i, e):
 	m.position = (wpos, hpos)
 
 	# Pointer screen position
-	print(str(wpos).zfill(4), str(hpos).zfill(4))
+	if args.verbose:
+		print(str(wpos).zfill(4), str(hpos).zfill(4))
 
-	# sleep for a minute
+	# sleep for (interval * 60 seconds)
 	sleep(i)
 
 signal.signal(signal.SIGINT, handler)

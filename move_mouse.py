@@ -11,8 +11,8 @@ from time import sleep
 from time import time
 
 mouse = Controller()
-width, height= pyautogui.size() # compatibility issue with Apple Retina screen? Reports 1680x1050 instead of 2880×1800
-interval = 60 # seconds to sleep after each movement of mouse pointer
+width, height= pyautogui.size()
+interval= 60 # seconds to sleep after each movement of mouse pointer
 
 # Argument parsing
 parser = argparse.ArgumentParser(description="Arguments")
@@ -39,9 +39,12 @@ def move_mouse(m, w, h, i, e):
 	# get random coordinates for mouse
 	wpos = randrange(0, w)
 	hpos = randrange(0, h)
-	
+
 	# Set pointer position
 	m.position = (wpos, hpos)
+
+	# Pointer screen position
+	print(wpos, hpos)
 
 	# sleep for a minute
 	sleep(i)
@@ -51,8 +54,5 @@ if expiry is None:
 	while True:
 		move_mouse(mouse, width, height, interval, expiry)
 else:
-	try:
-		while time() < time_start + expiry:
-			move_mouse(mouse, width, height, interval, expiry)
-	except:
-		sys.exit(1)
+	while time() < time_start + expiry:
+		move_mouse(mouse, width, height, interval, expiry)

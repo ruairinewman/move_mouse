@@ -2,11 +2,11 @@
 
 # vim: set expandtab:ts=2:sw=2
 
-import sys
 import argparse
 import pyautogui
 from random import randrange
-from pynput.mouse import Button, Controller
+from pynput.mouse import Controller
+import signal
 from time import sleep
 from time import time
 
@@ -35,6 +35,13 @@ else:
 # print detected screen resolution - information only
 print("Detected screen resolution:", str(width) + 'x' + str(height))
 
+def handler(signum, frame):
+	res = input("Ctrl-c was pressed. Do you really want to exit? Y/n ")
+	if res is None:
+		res = "\r\n"
+	if res.lower() == 'y':
+		exit(1)
+
 def move_mouse(m, w, h, i, e):
 	# get random coordinates for mouse
 	wpos = randrange(0, w)
@@ -44,10 +51,12 @@ def move_mouse(m, w, h, i, e):
 	m.position = (wpos, hpos)
 
 	# Pointer screen position
-	print(wpos, hpos)
+	print(str(wpos).zfill(4), str(hpos).zfill(4))
 
 	# sleep for a minute
 	sleep(i)
+
+signal.signal(signal.SIGINT, handler)
 
 time_start = time()
 if expiry is None:
